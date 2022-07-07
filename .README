@@ -1,0 +1,24 @@
+# Introduction
+
+This contains all the files required to find the block size and assosciativity of the cache.
+
+Programs:
+blocksize.cpp - A C++ file to calculate the blocksize(line size) of the cache.
+assoc.cpp - A C++ file to calculate the assosciativity of the cache. It requires prior knowledge of the number of sets in the cache.
+graph.py - A program that takes in input from output.txt and displays it as a line graph. Requires matplotlib for the display of the graphs.
+
+Data files:
+output.txt  - contains the output from the *.cpp files presents.
+assoc.png - contains the image of the graph obtained for the associativity
+blocksize.png - contains the image of the graph obtained for the block size
+bestassoc.txt - contains the best version of the assosciativity graph
+bestblocksize.txt - contains the best version of the blocksize graph
+
+Kernel Module:
+Cache-Disabling-Kernel-Module/disable.ko - A kernel module that modifies bit 30 of the CR0 register, which according to the IA-32 and IA-64 specification, disables the L1 and L2 cache. This is taken straight from this link: https://www.linuxquestions.org/questions/linux-kernel-70/disabling-cpu-caches-936077/ but the manual for the IA-32 and IA-64 specification is provided within the same folder for reference (the relevant chapter being chapter 11).
+
+# Creation of the executables:
+
+CPP files: Simply running `g++ filename.cpp -o filename` would give the executable
+Python files: Running `python filename.py` would run the program. It is important to note that the matplotlib library is required, which can be downloaded through pip: `pip install matplotlib`.
+Kernel Modules: The folder Cache-Disabling-Kernel-Module/ contains all the necessary files to load the kernel module. However, the currently provided file `disable.ko` will only work if your linux kernel is the 5.15.25-1-lts version. To make a kernel module for your version, modify the Makefile provided to link to your version of the linux headers. After that, by running `make` and then `sudo insmod ./disable.ko` will insert the kernel module. To remove the kernel module, run `sudo rmmod ./disable.ko`.
